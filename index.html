@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Profile | Account Settings</title>
+    <style>
+        /* Modern CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0fdf4; /* Very light green background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #166534; /* Dark green text */
+        }
+
+        .container {
+            background-color: #ffffff; /* White card */
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid #dcfce7;
+        }
+
+        .icon-box {
+            background-color: #f0fdf4;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        h2 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        p {
+            color: #4b5563;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-delete {
+            background-color: #22c55e; /* Vibrant Green */
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background-color: #16a34a; /* Darker green on hover */
+        }
+
+        .btn-cancel {
+            background-color: transparent;
+            color: #6b7280;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 0.9rem;
+        }
+
+        .btn-cancel:hover {
+            color: #374151;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="icon-box">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+        </div>
+        <h2>Delete Profile?</h2>
+        <p>This action will permanently remove your data. This cannot be undone, but we'd be sad to see you go!</p>
+        
+        <div class="btn-group">
+            <button class="btn-delete" onclick="sendDeleteRequest()">Confirm Delete</button>
+            <button class="btn-cancel" onclick="window.history.back()">Cancel, keep my profile</button>
+        </div>
+    </div>
+
+    <script>
+        function sendDeleteRequest() {
+            // This is where the "Request" happens
+            if(confirm("Are you absolutely sure?")) {
+                alert("Request sent! Your profile is being processed for deletion.");
+                // In a real app, you would use fetch() here to talk to your server
+            }
+        }
+    </script>
+
+</body>
+</html>
