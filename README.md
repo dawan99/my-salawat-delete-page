@@ -1,0 +1,1 @@
+# my-salawat-delete-page
