@@ -3,118 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delete Profile | Account Settings</title>
+    <title>Confirm Deletion | Secure Portal</title>
     <style>
-        /* Modern CSS Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
         }
 
         body {
-            background-color: #f0fdf4; /* Very light green background */
+            background-color: #f8fafc;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: #166534; /* Dark green text */
         }
 
-        .container {
-            background-color: #ffffff; /* White card */
-            padding: 2.5rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-            text-align: center;
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            width: 100%;
             max-width: 400px;
-            width: 90%;
-            border: 1px solid #dcfce7;
-        }
-
-        .icon-box {
-            background-color: #f0fdf4;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 1.5rem;
+            border-top: 5px solid #22c55e; /* Green accent */
         }
 
         h2 {
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
         }
 
         p {
-            color: #4b5563;
-            margin-bottom: 2rem;
-            line-height: 1.5;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
         }
 
-        .btn-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        .input-group {
+            text-align: left;
+            margin-bottom: 1.5rem;
         }
 
-        .btn-delete {
-            background-color: #22c55e; /* Vibrant Green */
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 0.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #22c55e;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            background-color: #22c55e;
             color: white;
             border: none;
             padding: 12px;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: opacity 0.3s, background 0.3s;
         }
 
-        .btn-delete:hover {
-            background-color: #16a34a; /* Darker green on hover */
+        .btn-confirm:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
 
-        .btn-cancel {
-            background-color: transparent;
-            color: #6b7280;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            text-decoration: underline;
-            font-size: 0.9rem;
+        .btn-confirm:hover:not(:disabled) {
+            background-color: #16a34a;
         }
 
-        .btn-cancel:hover {
-            color: #374151;
+        .cancel-link {
+            display: block;
+            margin-top: 1rem;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .cancel-link:hover {
+            color: #1e293b;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="icon-box">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
-        </div>
-        <h2>Delete Profile?</h2>
-        <p>This action will permanently remove your data. This cannot be undone, but we'd be sad to see you go!</p>
-        
-        <div class="btn-group">
-            <button class="btn-delete" onclick="sendDeleteRequest()">Confirm Delete</button>
-            <button class="btn-cancel" onclick="window.history.back()">Cancel, keep my profile</button>
-        </div>
+<div class="card">
+    <h2>Verify Identity</h2>
+    <p>Please enter your phone number to confirm the profile deletion request.</p>
+
+    <div class="input-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" placeholder="+1 (555) 000-0000" oninput="validateInput()">
     </div>
 
-    <script>
-        function sendDeleteRequest() {
-            // This is where the "Request" happens
-            if(confirm("Are you absolutely sure?")) {
-                alert("Request sent! Your profile is being processed for deletion.");
-                // In a real app, you would use fetch() here to talk to your server
-            }
+    <button id="confirmBtn" class="btn-confirm" disabled onclick="handleRequest()">
+        Confirm & Delete
+    </button>
+
+    <a href="#" class="cancel-link" onclick="window.history.back()">Go back to safety</a>
+</div>
+
+<script>
+    function validateInput() {
+        const phoneInput = document.getElementById('phone');
+        const confirmBtn = document.getElementById('confirmBtn');
+        
+        // Simple validation: check if the length is at least 10 digits
+        // You can make this stricter based on your needs
+        if (phoneInput.value.length >= 10) {
+            confirmBtn.disabled = false;
+        } else {
+            confirmBtn.disabled = true;
         }
-    </script>
+    }
+
+    function handleRequest() {
+        const phone = document.getElementById('phone').value;
+        
+        // Visual feedback
+        const btn = document.getElementById('confirmBtn');
+        btn.innerText = "Sending Request...";
+        btn.disabled = true;
+
+        setTimeout(() => {
+            alert("Success: Deletion request for " + phone + " has been sent.");
+            // You can redirect the user here:
+            // window.location.href = "https://yourwebsite.com/goodbye";
+        }, 1500);
+    }
+</script>
 
 </body>
 </html>
